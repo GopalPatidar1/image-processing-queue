@@ -212,6 +212,24 @@ uvicorn app.main:app --reload --port 5001
 
 ---
 
+# Running the Worker
+
+The worker runs as a separate process from the main FastAPI application.
+
+Start the worker using:
+
+```bash
+APP_ENV=test python3 -m worker.worker
+```
+
+The worker process count is automatically determined based on the available CPU capacity. The application starts multiple worker processes according to the configured CPU-based calculation.
+
+This allows the workload to be distributed across multiple CPU processes and provides better utilization of available CPU resources.
+
+> **Note:** The worker should be started separately from the FastAPI application.
+
+---
+
 # Running Test Cases
 
 The project uses `pytest` for testing.
@@ -349,8 +367,12 @@ Make sure `.env.dev` is configured correctly.
 ### 5. Start the application
 
 ```bash
-export APP_ENV=dev
-uvicorn app.main:app --reload --port 5001
+APP_ENV=dev uvicorn app.main:app --reload --port 5001
+```
+
+### 6. Run the worker separately
+```bash
+APP_ENV=test python3 -m worker.worker
 ```
 
 ---
