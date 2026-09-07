@@ -4,6 +4,8 @@ from app.core.custom_exception import CustomException
 from fastapi import status
 from app.models.jobs import Job
 from app.schema.jobs import CreateJob
+import logging
+logger = logging.getLogger(__name__)
 
 async def create_job(data: CreateJob, db: AsyncSession):
     try:
@@ -20,6 +22,7 @@ async def create_job(data: CreateJob, db: AsyncSession):
      return { "id": job_data.id }
 
     except Exception as e:
+     logger.exception("Failed to create job")
      await db.rollback()
      raise CustomException(status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -33,6 +36,7 @@ async def get_jobs(db:AsyncSession, limit: int, next_cursor: int | None, **kwarg
    return { "next_cursor": next_cursor, "avail_next": avail_next, "result": result[:limit] }
   
   except Exception as e:
+    logger.exception("Failed to get job")
     await db.rollback()
     raise CustomException(status.HTTP_500_INTERNAL_SERVER_ERROR, "Failed to fetch jobs")
 
@@ -50,5 +54,6 @@ async def get_job_by_id(db: AsyncSession, id: int):
      raise
    
    except Exception as e:
+     logger.exception("Failed to get job by id")
      await db.rollback()
      raise CustomException(status.HTTP_500_INTERNAL_SERVER_ERROR, "Failed to fetch job")

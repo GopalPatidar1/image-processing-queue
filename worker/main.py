@@ -5,6 +5,10 @@ from app.models.jobs import Job
 from app.config.database import SessionLocal
 import cv2
 
+import logging 
+from app.core.logger import setup_logger 
+setup_logger() 
+
 def process_job(job, threshold: float = 100.0) -> bool:
     image = cv2.imread(job.path, cv2.IMREAD_GRAYSCALE)
 
@@ -55,5 +59,5 @@ async def worker():
         try:
             await start_job()
         except Exception as exc:
-            print("Worker ~ exc:", exc)
+            logging.exception("Worker failed")
             await asyncio.sleep(1)

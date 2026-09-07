@@ -2,6 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from app.api import jobs
 from app.core.custom_exception import CustomException
+import logging 
+from app.core.logger import setup_logger 
+setup_logger() 
 
 app = FastAPI()
 
@@ -21,3 +24,6 @@ async def global_exception_handler(request: Request, exc: CustomException):
             'error': exc.message
         }
     )
+
+logger = logging.getLogger(__name__) 
+logger.error("Application started")
