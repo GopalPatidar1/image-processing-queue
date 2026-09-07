@@ -8,6 +8,7 @@ from app.core.custom_exception import CustomException
 from fastapi import status
 from app.config.secretes import secretes
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.pool import NullPool
 
 if not secretes.DB_URL:
     raise RuntimeError("DB_URL environment variable is not set")
@@ -15,10 +16,16 @@ if not secretes.DB_URL:
 class Base(DeclarativeBase):
     pass
 
+engine_kwargs = {
+    "pool_pre_ping": True,
+}
+
+if secretes.APP_ENV == "test":
+    engine_kwargs["poolclass"] = NullPool # Use NullPool in tests to prevent asyncpg connections from # being reused across different pytest event loops.
+
 engine = create_async_engine(
     secretes.DB_URL,
-    pool_pre_ping=True,
-    # echo=True
+    **engine_kwargs,
 )
 
 SessionLocal = async_sessionmaker(

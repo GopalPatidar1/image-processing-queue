@@ -38,9 +38,10 @@ async def get_jobs(db:AsyncSession, limit: int, next_cursor: int | None, **kwarg
 
 async def get_job_by_id(db: AsyncSession, id: int):
    try:
-     jobs_data =  await jobs.get_job_by_id(db=db, id=id)
+     jobs_data =  await jobs.get_job_by_id(db= db, id= id)
      if jobs_data is None:
         raise CustomException(status.HTTP_404_NOT_FOUND, "jobs not found")
+
      await db.commit()
 
      return jobs_data

@@ -24,7 +24,7 @@ async def get_jobs(db: AsyncSession, next_cursor: int | None, limit:int, status:
 
     return result.all()
 
-async def get_job_by_id(db: AsyncSession, id: int | None):
+async def get_job_by_id(db: AsyncSession, id: int):
     return await db.scalar(
         select(Job)
         .where(Job.id == id)
