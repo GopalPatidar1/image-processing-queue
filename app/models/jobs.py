@@ -20,3 +20,5 @@ class Job(Base):
     created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False,)
     updated_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False,)
     failed_reason: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    next_attempt_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True,)
+    started_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True,)

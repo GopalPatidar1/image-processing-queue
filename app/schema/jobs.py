@@ -19,6 +19,8 @@ class JobItems(BaseModel):
     created_at: datetime
     updated_at: datetime | None
     failed_reason: str | None = None
+    next_attempt_at: datetime | None = None
+    started_at: datetime | None = None
 
 class JobGetResponse(BaseModel):
     next_cursor: int | None = None
