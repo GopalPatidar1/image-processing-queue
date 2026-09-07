@@ -1,6 +1,4 @@
 import pytest
-from httpx import AsyncClient, ASGITransport
-from app.main import app
 from worker.main import start_job
  
 @pytest.mark.asyncio

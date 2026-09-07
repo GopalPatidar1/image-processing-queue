@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     APP_ENV: AppEnvironment
     DB_URL: str
     DB_URL_SYNC: str
+    IMAGE_DIR: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=f".env.{APP_ENV}",
